@@ -1,5 +1,6 @@
 # FallBack
 This script will send an email to a selected email address if the user doesn't login for 3 years.
+I made this will the help of AI, AI is F*Cking fast, and I've been suffering.
 
 ## key points:
 
