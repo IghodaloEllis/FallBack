@@ -1,6 +1,11 @@
 <?php
 require_once 'database_connection.php'; // Replace with your database connection file
 
+//CHECK IF USER IS LOGGED IN
+function isLoggedIn() 
+{
+    return isset($_SESSION['user_id']);
+}
 function sendInactiveUserEmail($userId) {
     // Retrieve user information from database
     $query = "SELECT email FROM users WHERE id = ?";
@@ -12,8 +17,8 @@ function sendInactiveUserEmail($userId) {
 
     if ($user) {
         $to = $user['email'];
-        $subject = "Your Account is Inactive";
-        $message = "Dear " . $user['username'] . ",\n\nIf you are seeing this email its mean I want you to. Please take your time to read it carefully.\n\nBest regards,\nYour Full name";
+        $subject = "SCHEDULED 3 YEARS AGO";
+        $message = "Dear " . $user['username'] . ",\n\nIf you are seeing this email it means I want you to. Please take your time to read it carefully.\n\nBest regards,\nYour Full name";
         $headers = "From: Your Name <your_email@example.com>";
 
         if (mail($to, $subject, $message, $headers)) {
