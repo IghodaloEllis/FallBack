@@ -1,48 +1,52 @@
 <?php
 require_once 'database_connection.php'; // Replace with your database connection file
 
-//CHECK IF USER IS LOGGED IN
-function isLoggedIn() 
-{
-    return isset($_SESSION['user_id']);
-}
 function sendInactiveUserEmail($userId) {
-    // Retrieve user information from database
-    $query = "SELECT email FROM users WHERE id = ?";
-    $stmt = $conn->prepare($query);
-    $stmt->bind_param("i", $userId);
+  try {
+    // Connect to database using PDO (replace with your connection logic)
+    $conn = new PDO("mysql:host=" . DB_HOST . ";dbname=" . DB_NAME, DB_USER, DB_PASSWORD);
+    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+    // Prepare and execute the query
+    $stmt = $conn->prepare("SELECT email FROM users WHERE id = ?");
+    $stmt->bindValue(":id", $userId, PDO::PARAM_INT); // Use named parameters
     $stmt->execute();
-    $result = $stmt->get_result();
-    $user = $result->fetch_assoc();
+
+    $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
     if ($user) {
-        $to = $user['email'];
-        $subject = "SCHEDULED 3 YEARS AGO";
-        $message = "Dear " . $user['username'] . ",\n\nIf you are seeing this email it means I want you to. Please take your time to read it carefully.\n\nBest regards,\nYour Full name";
-        $headers = "From: Your Name <your_email@example.com>";
+      $to = $user['email'];
+      $subject = "Your Account is Inactive";
+      $message = "Dear " . $user['username'] . ",\n\nYour account has been inactive for 3 years. Please log in to keep your account active.\n\nBest regards,\nYour Website";
+      $headers = "From: Your Name <your_email@example.com>";
 
-        if (mail($to, $subject, $message, $headers)) {
-            echo "Email sent successfully";
-        } else {
-            echo "Error sending email";
-        }
+      if (mail($to, $subject, $message, $headers)) {
+        echo "Email sent successfully";
+      } else {
+        echo "Error sending email";
+      }
     } else {
-        echo "User not found";
+      echo "User not found";
     }
+  } catch(PDOException $e) {
+    echo "Error: " . $e->getMessage();
+  } finally {
+    $conn = null; // Close connection (if using PDO)
+  }
 }
 
 // Check for inactive users
 $threeYearsAgo = time() - (3 * 365 * 24 * 60 * 60); // Calculate timestamp for 3 years ago
 
 $query = "SELECT id FROM users WHERE last_login < ?";
-$stmt = $conn->prepare($query);
+$stmt = $conn->prepare($query); // Assuming $conn is defined in your connection script
 $stmt->bind_param("i", $threeYearsAgo);
 $stmt->execute();
 $result = $stmt->get_result();
 
 while ($row = $result->fetch_assoc()) {
-    sendInactiveUserEmail($row['id']);
+  sendInactiveUserEmail($row['id']);
 }
 
-$conn->close();
+$conn->close(); // Close connection (if using mysqli)
 ?>
