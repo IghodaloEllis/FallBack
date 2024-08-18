@@ -24,6 +24,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     exit;
   } else {
     // Handle login failure with appropriate error message
+    header("Location: index.php"); // Replace with your home page
     // Consider implementing rate limiting here
   }
 }
