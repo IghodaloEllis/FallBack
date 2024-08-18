@@ -13,5 +13,5 @@ How will you send the email? (e.g., PHP's mail() function, a third-party library
 ### Error Handling
 What happens if there's an error sending the email?
 The user's last login date is stored in a database column named last_login as a timestamp.
-You're using PHP's mail() function to send emails.
+We're using PHP's mail() function to send emails.
 Basic error handling for email sending.
