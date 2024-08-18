@@ -1,9 +1,6 @@
 <?php
-// Database connection details
-$servername = "your_servername";
-$username = "your_username";
-$password = "your_password";
-$dbname = "your_database";
+// Database connection
+require_once 'database_connection.php'; // Replace with your database connection file
 
 // Create connection
 $conn = new mysqli($servername, $username, $password, $dbname);
