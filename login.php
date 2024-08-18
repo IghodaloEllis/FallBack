@@ -1,5 +1,6 @@
 <?php
 require_once 'database_connection.php'; // Replace with your database connection file
+session_start();
 
 // Get user input
 $email = $_POST['email'];
