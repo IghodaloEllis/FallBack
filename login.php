@@ -1,5 +1,6 @@
 <?php
 require_once 'database_connection.php'; // Replace with your database connection file
+
 // Get user input
 $email = $_POST['email'];
 $password = $_POST['password'];
@@ -15,7 +16,7 @@ if ($result->num_rows > 0) {
     $row = $result->fetch_assoc();
     if (password_verify($password, $row['password'])) {
         // Successful login, redirect to dashboard or other page
-        header("Location: dashboard.php");
+        header("Location: send.php");
         exit;
     } else {
         echo "Incorrect password";
