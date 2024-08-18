@@ -1,4 +1,5 @@
 <?php
+session_start();
 require_once 'database_connection.php'; // Replace with your database connection file
 
 function sendInactiveUserEmail($userId) {
