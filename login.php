@@ -1,6 +1,5 @@
 <?php
-// ... database connection details
-
+require_once 'database_connection.php'; // Replace with your database connection file
 // Get user input
 $email = $_POST['email'];
 $password = $_POST['password'];
